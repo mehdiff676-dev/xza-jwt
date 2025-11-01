@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
@@ -48,7 +49,6 @@ def majorlogin_jwt():
     game_data.gpu_name = "Adreno (TM) 640"
     game_data.gpu_version = "OpenGL ES 3.0"
     game_data.user_id = "Google|74b585a9-0268-4ad3-8f36-ef41d2e53610"
-    game_data.ip_address = "172.190.111.97"
     game_data.language = "en"
     game_data.open_id = open_id
     game_data.access_token = access_token
@@ -104,8 +104,7 @@ def majorlogin_jwt():
 
             result = {
                 "@X_Z_A_Xx": {
-                    "token": token_value,
-                    "nickname": nickname_value
+                    "token": token_value
                 }
             }
             return jsonify(result), 200
@@ -172,4 +171,6 @@ def oauth_guest():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Render يعين المنفذ تلقائيًا داخل المتغير PORT
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
